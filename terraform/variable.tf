@@ -2,7 +2,7 @@ variable "ami_id" {
   type        = "string"
   description = "ID of AMI to search for"
   # amazon linux us-east1
-  default    = "ami-0664dc4f358fc089c"
+  default = "ami-0664dc4f358fc089c"
 }
 
 variable "aws_region" {
@@ -26,13 +26,13 @@ variable "instance_type" {
 variable "instance_count_max" {
   type        = "number"
   description = "instance count max"
-  default = 1
+  default     = 1
 }
 
 variable "instance_count_min" {
   type        = "string"
   description = "instance count min"
-  default = 1
+  default     = 1
 }
 
 variable "create_dns_record" {
@@ -64,5 +64,5 @@ variable "security_group_name" {
 variable "whitelisted_CIDRs" {
   type        = "list"
   description = "Allowed CIDR blocks for access"
-  default = ["0.0.0.0/0"]
+  default     = ["0.0.0.0/0"]
 }

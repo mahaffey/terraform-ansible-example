@@ -68,13 +68,13 @@ resource "aws_autoscaling_group" "this" {
 }
 
 resource "aws_route53_record" "this" {
-  count   = var.create_dns_record ? 1 : 0  # cast truthy/falsy value to int for conditional creation
+  count = var.create_dns_record ? 1 : 0 # cast truthy/falsy value to int for conditional creation
 
   zone_id = data.aws_route53_zone.zone[0].id
   name    = var.record_name
   type    = "A"
 
-  ttl     = "60"
+  ttl = "60"
 
   # there should only be one load balancer for the autoscaling group so choose `[0]`
   alias {
