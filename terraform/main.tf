@@ -6,6 +6,10 @@ data "template_file" "user_data" {
   template = file("./bootstrap.sh")
 }
 
+#######
+# ASG #
+#######
+
 resource "aws_launch_template" "this" {
   name_prefix   = "${var.launch_template_prefix}-"
   image_id      = var.ami_id
@@ -46,7 +50,7 @@ resource "aws_autoscaling_group" "this" {
     version = aws_launch_template.this.latest_version
   }
 
-  vpc_zone_identifier = data.aws_subnet_ids.this
+  vpc_zone_identifier = data.aws_subnet_ids.this.ids
 
   default_cooldown          = 180
   health_check_grace_period = 180
@@ -67,19 +71,60 @@ resource "aws_autoscaling_group" "this" {
   }
 }
 
-resource "aws_route53_record" "this" {
-  count = var.create_dns_record ? 1 : 0 # cast truthy/falsy value to int for conditional creation
+###################
+# Load Balancers #
+##################
 
-  zone_id = data.aws_route53_zone.zone[0].id
-  name    = var.record_name
+resource "aws_lb" "this" {
+  name     = "${aws_launch_template.this.name}-lb"
+
+  subnets = data.aws_subnet_ids.this.ids
+
+  load_balancer_type = "application"
+
+  tags = var.tags
+}
+
+resource "aws_lb_target_group" "this" {
+  name        = "${aws_launch_template.this.name}-lb-target"
+  port        = 80
+  protocol    = "TCP"
+  vpc_id      = data.aws_vpc.default.id
+  target_type = "instance"
+
+  health_check {
+    port     = "traffic-port"
+    protocol = "TCP"
+  }
+
+  tags = var.tags
+}
+
+resource "aws_lb_listener" "this" {
+  default_action {
+    target_group_arn = aws_lb_target_group.this.arn
+    type             = "forward"
+  }
+
+  load_balancer_arn = aws_lb.this.arn
+  port              = 80
+  protocol          = "TCP"
+}
+
+###########
+# Route53 #
+###########
+
+resource "aws_route53_record" "this" {
+  count = var.route53_record != "" ? 1 : 0 # cast truthy/falsy value to int for conditional creation
+
+  zone_id = data.aws_route53_zone.this[0].id
+  name    = var.route53_record
   type    = "A"
 
-  ttl = "60"
-
-  # there should only be one load balancer for the autoscaling group so choose `[0]`
   alias {
-    name                   = "${aws_autoscaling_group.this.load_balancers[0].dns_name}"
-    zone_id                = "${aws_autoscaling_group.this.load_balancers[0].zone_id}"
+    name                   = aws_lb.this.dns_name
+    zone_id                = aws_lb.this.zone_id
     evaluate_target_health = true
   }
 }

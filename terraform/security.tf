@@ -1,6 +1,6 @@
 resource "aws_security_group" "asg-sg" {
   name   = var.security_group_name
-  vpc_id = data.aws_vpc.this
+  vpc_id = data.aws_vpc.default.id
 }
 
 # Ingress Security Port 80

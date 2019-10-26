@@ -8,7 +8,7 @@ variable "ami_id" {
 variable "aws_region" {
   type        = string
   description = "AWS region"
-  default     = "us-east1"
+  default     = "us-east-1"
 }
 
 variable "tags" {
@@ -35,15 +35,10 @@ variable "instance_count_min" {
   default     = 1
 }
 
-variable "create_dns_record" {
-  type        = bool
-  description = "whether or not to crate a DNS record"
-  default     = false
-}
-
 variable "route53_zone" {
   type        = string
   description = "route53 zone for the dns"
+  default     = ""
 }
 
 variable "route53_record" {
@@ -54,11 +49,13 @@ variable "route53_record" {
 variable "launch_template_prefix" {
   type        = string
   description = "Prefix for the launch template"
+  default     = "webserver"
 }
 
 variable "security_group_name" {
   type        = string
   description = "Name for the ASG security group"
+  default     = "asg-test"
 }
 
 variable "whitelisted_CIDRs" {

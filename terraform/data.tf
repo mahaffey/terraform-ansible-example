@@ -7,5 +7,6 @@ data "aws_subnet_ids" "this" {
 }
 
 data "aws_route53_zone" "this" {
+  count = var.route53_zone != "" ? 1 : 0
   name = var.route53_zone
 }
