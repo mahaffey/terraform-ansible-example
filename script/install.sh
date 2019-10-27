@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 linux_install () {
   PACKAGE="$1"
   YUM_CMD="$(command -v yum)"
@@ -14,20 +16,28 @@ linux_install () {
   fi
 }
 
-if uname == "Darwin" ; then
+if [[ "$(uname)" == "Darwin" ]]; then
   if ! brew list python@3 >/dev/null 2>&1 ; then
     brew install python
+  else
+    echo "Python3 already installed" >&2
   fi
   if ! brew list terraform >/dev/null 2>&1 ; then
     brew install terraform
+  else
+    echo "Terraform already installed" >&2
   fi
 else
   if ! command -v python >/dev/null 2>&1 ; then
     linux_install python
+  else
+    echo "Python3 already installed" >&2
   fi
   if ! command -v terraform >/dev/null 2>&1 ; then
     linux_install terraform
+  else
+    echo "Terraform already installed" >&2
   fi
-
 fi
+
 pip3 install --upgrade --user -r requirements.txt
