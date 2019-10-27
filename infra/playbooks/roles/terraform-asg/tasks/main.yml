@@ -1,0 +1,5 @@
+---
+
+- import_tasks: terraform-asg.yml
+  when: terraform_asg_enabled | bool
+  tags: terraform-asg

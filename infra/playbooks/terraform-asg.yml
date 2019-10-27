@@ -1,0 +1,22 @@
+---
+# For a local playbook run:
+# ansible-playbook -u ansible --connection=local --inventory localhost, ./ansible/playbooks
+- hosts: all
+  roles:
+  - terraform-asg
+  vars:
+    terraformasg_enabled: true
+    # tf_apply: false
+    # tfvars_ami_id: "ami-0664dc4f358fc089c"
+    # tfvars_aws_region: "us-east-1"
+    # tfvars_tags: ' {}'
+    # tfvars_instance_type: "t2.micro"
+    # tfvars_instance_count_max: 1
+    # tfvars_instance_count_min: 1
+    # tfvars_route53_zone: ""
+    # tfvars_route53_record: ""
+    # tfvars_launch_template_prefix: "webserver"
+    # tfvars_security_group_name: "asg-test-sg"
+    # tfvars_whitelisted_CIDRs: ' ["0.0.0.0/0",]'
+
+# see vars in roles/terraform-asg/defaults/main.yaml

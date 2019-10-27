@@ -1,0 +1,6 @@
+---
+
+- name: template tfvars
+  template:
+    src: terraform.tfvars.j2
+    dest: ./terraform.tfvars

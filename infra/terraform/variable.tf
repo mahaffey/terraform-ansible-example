@@ -37,13 +37,13 @@ variable "instance_count_min" {
 
 variable "route53_zone" {
   type        = string
-  description = "route53 zone for the dns"
+  description = "route53 zone for the DNS"
   default     = ""
 }
 
 variable "route53_record" {
   type        = string
-  description = "route53 zone for the dns"
+  description = "route53 record for the DNS"
 }
 
 variable "launch_template_prefix" {
@@ -55,7 +55,7 @@ variable "launch_template_prefix" {
 variable "security_group_name" {
   type        = string
   description = "Name for the ASG security group"
-  default     = "asg-test"
+  default     = "asg-test-sg"
 }
 
 variable "whitelisted_CIDRs" {

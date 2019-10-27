@@ -1,0 +1,5 @@
+---
+
+- include_tasks: template.yml
+
+- include_tasks: provision.yml

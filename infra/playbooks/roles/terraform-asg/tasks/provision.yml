@@ -1,0 +1,19 @@
+---
+
+- name: Provision AWS Infrastructure
+  shell: terraform plan -var-file ../playbooks/terraform.tfvars
+  args:
+      chdir: ../terraform
+  register: ps1
+
+- debug: var=ps1.stdout_lines
+
+- name: Provision AWS Infrastructure
+  shell: terraform apply -auto-approve -var-file ../playbooks/terraform.tfvars
+  args:
+      chdir: ../terraform
+  register: ps2
+  when: tf_apply | bool
+
+- debug: var=ps2.stdout_lines
+  when: tf_apply | bool
