@@ -41,9 +41,6 @@ make apply    # WARNING this has the terraform `auto_approve` flag on and will p
 | `terraform_asg_enabled`             | Role enabler for the playbook      | `True`                                    |
 | `tf_apply`                          | If True tf `apply`, if False `plan`| `False`                                   |
 
-
-
-tf_apply: false
 ### Terraform Variables and their Defaults
 >Note: The weird formatting on maps and lists `' []'` and `' {}'` is due to the reasons outlined here (TL;DR typecasting in python): https://stackoverflow.com/questions/31969872/why-ansible-always-replaces-double-quotes-with-single-quotes-in-templates
 
